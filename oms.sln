@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example", "src\example\example.vcxproj", "{EC8DF456-20F1-4DA2-9F34-6757347719A1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "oms", "src\oms\oms.vcxproj", "{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58D3FCEB-0952-4C38-8E08-D8A214FCF0BD}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		cpplint.py = cpplint.py
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Debug|x64.ActiveCfg = Debug|x64
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Debug|x64.Build.0 = Debug|x64
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Debug|x86.ActiveCfg = Debug|Win32
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Debug|x86.Build.0 = Debug|Win32
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Release|x64.ActiveCfg = Release|x64
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Release|x64.Build.0 = Release|x64
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Release|x86.ActiveCfg = Release|Win32
+		{EC8DF456-20F1-4DA2-9F34-6757347719A1}.Release|x86.Build.0 = Release|Win32
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Debug|x64.ActiveCfg = Debug|x64
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Debug|x64.Build.0 = Debug|x64
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Debug|x86.ActiveCfg = Debug|Win32
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Debug|x86.Build.0 = Debug|Win32
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Release|x64.ActiveCfg = Release|x64
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Release|x64.Build.0 = Release|x64
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Release|x86.ActiveCfg = Release|Win32
+		{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A5960E98-8B4F-4EF7-A6FC-983C9A6EE940}
+	EndGlobalSection
+EndGlobal
