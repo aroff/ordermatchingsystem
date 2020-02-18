@@ -23,7 +23,7 @@ namespace OMS {
 		OrderBook(const Asset &asset);
 		virtual ~OrderBook();
 
-		const Asset asset() const;
+		const Asset &asset() const;
 
 		// Order management methods
 		virtual void add(const Order &order/*, const OrderConditions orderConditions = 0*/);
@@ -37,12 +37,13 @@ namespace OMS {
 
 		virtual Price get_price() const;
 
+		void print() const;
 	protected:
 		/// Events interfaces
-		virtual void OnAccept(const Order &order, Quantity quantity);
-		virtual void OnReject(const Order &order, std::string reason);
+		virtual void OnAccept(const Order &order);
+		virtual void OnReject(const Order &order, OrderError err);
 		virtual void OnFill(const Order &order, const Order &matchedOrder, Quantity filledQuantity, Cost fillCost, bool inboundOrderFilled, bool matchedOrderFilled);
-		virtual void OnCancel(const Order &order, Quantity quantity);
+		virtual void OnCancel(const Order &order);
 		virtual void OnCancelReject(const Order &order, std::string reason);
 		virtual void OnReplace(const Order &order, Quantity currentQuantity, Quantity newQuantity, Price newPrice);
 		virtual void OnReplaceReject(const Order &order, std::string reason);
@@ -57,25 +58,35 @@ namespace OMS {
 
 	protected:
 
+		void add_limit_order(const LimitOrder &order);
+		void add_market_order(const MarketOrder &order);
+		void add_stoplimit_order(const StopLimitOrder &order);
+
+		void try_match_market(OrderTracker &order);
+		void try_match_limit(OrderTracker &order);
+		void try_match_stoplimit(OrderTracker &order);
+
+		// trade order1 against order2
+		Quantity do_trade(OrderTracker &income, OrderTracker &order, Quantity maxQuantity);
+
 		// Matching
-		virtual bool match_order(const OrderTracker &inbound, Price inboundPrice, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		virtual bool match_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
 		// matching of a regular order
-		bool match_regular_order(const OrderTracker &inbound, Price inboundPrice, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_regular_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
 
 		// matching of an all or nothing order
-		bool match_aon_order(const OrderTracker &inbound, Price inboundPrice, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_aon_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
+		const Asset &Asset_;
+		Price price_{ 0 };  // Market Price
 
-		const Asset &m_Asset;
-		Price m_Price{ 0 };  // Market Price
-
-		OrderTrackerMap m_Bids;
-		OrderTrackerMap m_Asks;
+		OrderTrackerMap Bids_;
+		OrderTrackerMap Asks_;
 		
-		OrderTrackerMap m_StopBids;
-		OrderTrackerMap m_StopAsks;
-
+		OrderTrackerMap StopBids_;
+		OrderTrackerMap StopAsks_;
 	};
+
 }

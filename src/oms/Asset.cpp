@@ -1,12 +1,11 @@
 #include "Asset.h"
 
-
-
-Asset::Asset()
+OMS::Asset::Asset(std::string ticker) :
+	ticker_(ticker)
 {
 }
 
 
-Asset::~Asset()
+OMS::Asset::~Asset()
 {
 }

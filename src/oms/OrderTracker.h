@@ -31,7 +31,7 @@ namespace OMS {
 
 		// Order accessors
 		const Order &order() const;
-		Order &order();
+		//Order &order();
 
 
 		

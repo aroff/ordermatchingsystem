@@ -2,6 +2,8 @@
 
 OMS::OrderTracker::OrderTracker(const Order & order) :
 		m_Order(order)
+	,	m_OpenQuantity(order.quantity())
+	,	m_Reserved(0)
 {
 }
 
@@ -50,6 +52,11 @@ const OMS::Order& OMS::OrderTracker::order() const
 {
 	return m_Order;
 }
+
+/*OMS::Order& OMS::OrderTracker::order()
+{
+	return m_Order;
+}*/
 
 //OMS::Order & OMS::OrderTracker::order()
 //{

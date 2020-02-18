@@ -33,3 +33,7 @@
 
 *Debug*
 .vs
+
+.idea/*
+.ionide/*
+.lib/
