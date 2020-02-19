@@ -1,7 +1,7 @@
 #include "ComparablePrice.h"
 
 
-OMS::ComparablePrice::ComparablePrice(OMS::Order::Side side, OMS::Price price) :
+OMS::ComparablePrice::ComparablePrice(OMS::Side side, OMS::Price price) :
 		price_(price)
 	,	side_(side)
 {
@@ -9,7 +9,7 @@ OMS::ComparablePrice::ComparablePrice(OMS::Order::Side side, OMS::Price price) :
 
 bool OMS::ComparablePrice::match(Price price)
 {
-	if (side_ == Order::Side::Buy) {
+	if (side_ == OMS::Side::Buy) {
 		return price_ >= price;
 	}
 	else

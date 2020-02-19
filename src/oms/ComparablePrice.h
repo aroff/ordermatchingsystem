@@ -10,7 +10,7 @@ namespace OMS {
 	class ComparablePrice
 	{
 	public:
-		ComparablePrice(OMS::Order::Side side, OMS::Price price);
+		ComparablePrice(OMS::Side side, OMS::Price price);
 		Price price() const { return price_; }
 
 		bool match(Price price); 
@@ -29,7 +29,7 @@ namespace OMS {
 
 	protected:
 		OMS::Price price_;
-		OMS::Order::Side side_;
+		OMS::Side side_;
 	};
 
 	bool operator <(const ComparablePrice &lhs, Price rhs);

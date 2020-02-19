@@ -26,7 +26,7 @@ void OMS::OrderBook::add_limit_order(OrderPtr order) {
 
 	OMS::OrderTracker tracker(order);
 
-	auto &queue = order->side() == OMS::Order::Buy ? Bids_ : Asks_;
+	auto &queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
 	//ComparablePrice price(order.side(), order.limit());
 	//queue.insert({ price, tracker });
 	try_match_limit(tracker);
@@ -36,14 +36,14 @@ void OMS::OrderBook::add_market_order(OrderPtr order)
 {
 	OMS::OrderTracker tracker(order);
 
-	auto queue = order->side() == OMS::Order::Buy ? Bids_ : Asks_;
+	auto queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
 	try_match_market(tracker);
 }
 
 void OMS::OrderBook::add_stoplimit_order(OrderPtr order)
 {
 	OMS::OrderTracker tracker(order);
-	auto queue = order->side() == OMS::Order::Buy ? StopBids_ : StopAsks_;
+	auto queue = order->side() == OMS::Side::Buy ? StopBids_ : StopAsks_;
 	//ComparablePrice price(order.side(), order.limit());
 	//queue.insert({ price, tracker });
 	try_match_limit(tracker);
@@ -81,8 +81,8 @@ void OMS::OrderBook::try_match_market(OrderTracker &tracker) {
 
 	const LimitOrder &limitOrder = (const LimitOrder &)tracker.order();
 
-	auto &asks = limitOrder.side() == Order::Side::Buy ? Asks_ : Bids_;
-	auto &bids = limitOrder.side() == Order::Side::Buy ? Bids_ : Asks_;
+	auto &asks = limitOrder.side() == Side::Buy ? Asks_ : Bids_;
+	auto &bids = limitOrder.side() == Side::Buy ? Bids_ : Asks_;
 
 	DeferredMatches deferred_aons;
 	bool matched = match_order(tracker, asks, deferred_aons);
@@ -95,12 +95,12 @@ void OMS::OrderBook::try_match_limit(OrderTracker &tracker) {
 
 	//auto limitOrder = (std::shared_ptr<LimitOrder> &)a;
 
-	auto &asks = limitOrder->side() == Order::Side::Buy ? Asks_ : Bids_;
-	auto &bids = limitOrder->side() == Order::Side::Buy ? Bids_ : Asks_;
+	auto &asks = limitOrder->side() == OMS::Side::Buy ? Asks_ : Bids_;
+	auto &bids = limitOrder->side() == OMS::Side::Buy ? Bids_ : Asks_;
 
 	DeferredMatches deferred_aons;
 	bool matched = match_order(tracker, asks, deferred_aons);
-	if (!tracker.is_filled() && !(limitOrder->filling() == Order::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
+	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
 	{
 		ComparablePrice price(limitOrder->side(), limitOrder->limit());
 		bids.insert({ price, tracker });
@@ -157,7 +157,7 @@ OMS::Quantity OMS::OrderBook::do_trade(OrderTracker & income, OrderTracker & ord
 
 bool OMS::OrderBook::match_order(OMS::OrderTracker &tracker, OMS::OrderTrackerMap& current_orders, OMS::DeferredMatches & deferred_aons)
 {
-	if (tracker.order()->filling() == OMS::Order::Filling::AllOrNothing)
+	if (tracker.order()->filling() == OMS::Filling::AllOrNothing)
 		return match_aon_order(tracker, current_orders, deferred_aons); // all or nothing order
 
 	return match_standard_order(tracker, current_orders, deferred_aons); // standard order
@@ -290,7 +290,7 @@ void OMS::OrderBook::OnAccept(const Order & order)
 
 void OMS::OrderBook::OnReject(const Order & order, OMS::OrderError err)
 {
-	std::cout << (order.side() == Order::Side::Buy ? "BUY" : std::string("SELL")) << " " << order.quantity() << " was rejected." << std::endl;
+	std::cout << (order.side() == Side::Buy ? "BUY" : std::string("SELL")) << " " << order.quantity() << " was rejected." << std::endl;
 }
 
 void OMS::OrderBook::OnFill(const Order & order, const Order & matchedOrder, Quantity filledQuantity, Cost fillCost, bool incomeOrderFilled, bool matchedOrderFilled)
@@ -300,7 +300,7 @@ void OMS::OrderBook::OnFill(const Order & order, const Order & matchedOrder, Qua
 
 void OMS::OrderBook::OnCancel(const Order & order)
 {
-	std::cout << (order.side() == Order::Side::Buy ? "BUY" : std::string("SELL")) << " " << order.quantity() << " was canceled." << std::endl;
+	std::cout << (order.side() == Side::Buy ? "BUY" : std::string("SELL")) << " " << order.quantity() << " was canceled." << std::endl;
 }
 
 void OMS::OrderBook::OnCancelReject(const Order & order, std::string reason)

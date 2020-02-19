@@ -28,7 +28,7 @@ namespace OMS {
 
 	class Option : Asset {
 	public:
-		enum OptionType {
+		enum class OptionType {
 			Call,
 			Put
 		};

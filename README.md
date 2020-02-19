@@ -45,3 +45,36 @@ orderBook.print();
 - Stop Limit order (not implemented yet)
 - One Cancel Other order (not implemented yet)
 
+# Adding orders to the Order book
+
+To prevent 
+```cpp
+std::mutex OMS::OrderBook::m;
+// Add new order to order book
+bool OMS::OrderBook::add(OrderPtr order)
+{
+	std::unique_lock<std::mutex> guard(OrderBook::m); // lock order books from other threads
+
+	auto err = order->validate();
+	if(err != OMS::OrderError::Ok)
+	{
+		OnReject(*order, err);
+		return false;
+	}
+
+	if (typeid(*order) == typeid(MarketOrder))
+		add_market_order(order);
+	else if (typeid(*order) == typeid(LimitOrder))
+		add_limit_order(order);
+	else if (typeid(*order) == typeid(StopLimitOrder))
+		add_stoplimit_order(order);
+	else
+		throw std::runtime_error("Unknown order type");
+
+    guard.unlock(); // unlock
+
+	OnAccept(*order);
+
+	return true;
+}
+```

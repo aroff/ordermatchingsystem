@@ -44,9 +44,9 @@ void SimulateMarket(OMS::OrderBook *orderBook) {
 		OMS::Quantity sellQuantity = quantityDistribution(random_engine);
 
 		t_orders.push_back(std::thread([&] {
-			orderBook->add(OMS::LimitOrder::Create(trader1, OMS::Order::Side::Buy, buyPrice, buyQuantity));
+			orderBook->add(OMS::LimitOrder::Create(trader1, OMS::Side::Buy, buyPrice, buyQuantity));
 
-			orderBook->add(OMS::LimitOrder::Create(trader2, OMS::Order::Side::Sell, sellPrice, sellQuantity));
+			orderBook->add(OMS::LimitOrder::Create(trader2, OMS::Side::Sell, sellPrice, sellQuantity));
 		}));
 
 		//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -76,12 +76,12 @@ int main()
 		std::string op, tr;
 		OMS::Price limit;
 		OMS::Quantity qtt;
-		OMS::Order::Side side;
+		OMS::Side side;
 		std::cin >> tr >> op >> limit >> qtt;
 		if (op == "buy")
-			side = OMS::Order::Side::Buy;
+			side = OMS::Side::Buy;
 		else
-			side = OMS::Order::Side::Sell;
+			side = OMS::Side::Sell;
 		OMS::Trader *trader=0;
 		if (tr == "t1")
 			trader = &trader1; 
@@ -101,10 +101,10 @@ int main()
 	
 
 	// Sell limit oder
-	//orderBook.add(OMS::LimitOrder::Create(trader2, OMS::Order::Side::Sell, 50, 20));
+	//orderBook.add(OMS::LimitOrder::Create(trader2, OMS::Side::Sell, 50, 20));
 	//orderBook.print();
 
-	//orderBook.add(OMS::LimitOrder::Create(trader2, OMS::Order::Side::Buy, 70, 10));
+	//orderBook.add(OMS::LimitOrder::Create(trader2, OMS::Side::Buy, 70, 10));
 	//orderBook.print();
 }
 

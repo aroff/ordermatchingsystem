@@ -12,12 +12,12 @@ OMS::Order::~Order()
 {
 }
 
-OMS::Order::Side OMS::Order::side() const
+OMS::Side OMS::Order::side() const
 {
 	return side_;
 }
 
-OMS::Order::Filling OMS::Order::filling() const
+OMS::Filling OMS::Order::filling() const
 {
 	return filling_;
 }

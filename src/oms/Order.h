@@ -5,7 +5,25 @@
 
 namespace OMS {
 
-	enum OrderError {
+	enum class Schedule {
+		Day, //These orders expire at the end of the trading day.
+		GTC, //(Good till canceled). This order is valid until it is cancelled. To make sure they don’t stay at the market indefinitely, a special limitation is imposed, which is usually from 30 to 90 days.
+		FOK, // (Fill Or Kill). The order must be fully filled or immediately cancelled.
+		IOC,// (Immediate Or Cancel). The order is immediately executed or cancelled by the exchange. Unlike FOK, this type allows for partial fulfillment.
+		GTD,// (Good-til-Date/Time).
+		GAT, // (Good-after-Time/Date).
+	};
+
+	enum class Filling {
+		PartialFill,
+		AllOrNothing, //only confirm trade when completelly filled. they have lower priority 
+		ImmediateOrCancel  // requires all or part of the order to be executed immediately, and any unfilled parts of the order are canceled
+	};
+
+	enum class Side { Buy, Sell };
+
+
+	enum class OrderError {
 		Ok,
 		InvalidQuantity,
 		LimitMustBeHigherThanStop,
@@ -15,19 +33,10 @@ namespace OMS {
 		
 	};
 
+	//https://www.vonmo.com/en/blog/vonmo-trade-experiment-orders-types-and-processing-features/
 	class Order
 	{
 	public:
-
-		//enum Type { Market, Limit, StopLimit, OCO};
-
-		enum Filling { 
-			PartialFill,
-			AllOrNothing, //only confirm trade when completelly filled. they have lower priority 
-			ImmediateOrCancel  // requires all or part of the order to be executed immediately, and any unfilled parts of the order are canceled
-		};
-
-		enum Side { Buy, Sell };
 
 		/// is this a limit order?
 		bool is_limit() const;
