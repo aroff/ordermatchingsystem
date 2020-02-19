@@ -1,12 +1,10 @@
 #include "Depth.h"
 
-
-
-Depth::Depth()
+OMS::Depth::Depth()
 {
 }
 
 
-Depth::~Depth()
+OMS::Depth::~Depth()
 {
 }

@@ -6,6 +6,7 @@
 
 #include <map>
 #include <list>
+#include <mutex>
 
 namespace OMS {
 
@@ -20,17 +21,18 @@ namespace OMS {
 
 
 		// Construct the Order book for Asset
-		OrderBook(const Asset &asset);
+		OrderBook(const Asset &asset, const Asset &baseAsset);
 		virtual ~OrderBook();
 
 		const Asset &asset() const;
+		const Asset &baseAsset() const;
 
 		// Order management methods
-		virtual void add(const Order &order/*, const OrderConditions orderConditions = 0*/);
+		virtual bool add(OrderPtr order/*, const OrderConditions orderConditions = 0*/);
 
-		virtual void cancel(const Order &order);
+		virtual bool cancel(OrderPtr order);
 
-		virtual void replace(const Order &order, Quantity deltaQuantity, Price newPrice);
+		virtual void replace(OrderPtr order, Quantity deltaQuantity, Price newPrice);
 
 		// set current market price for the Asset
 		virtual void set_price(Price price);
@@ -58,9 +60,9 @@ namespace OMS {
 
 	protected:
 
-		void add_limit_order(const LimitOrder &order);
-		void add_market_order(const MarketOrder &order);
-		void add_stoplimit_order(const StopLimitOrder &order);
+		void add_limit_order(OrderPtr order);
+		void add_market_order(OrderPtr order);
+		void add_stoplimit_order(OrderPtr order);
 
 		void try_match_market(OrderTracker &order);
 		void try_match_limit(OrderTracker &order);
@@ -70,16 +72,17 @@ namespace OMS {
 		Quantity do_trade(OrderTracker &income, OrderTracker &order, Quantity maxQuantity);
 
 		// Matching
-		virtual bool match_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		virtual bool match_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
 		// matching of a regular order
-		bool match_regular_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_standard_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
 
 		// matching of an all or nothing order
-		bool match_aon_order(OrderTracker &inbound, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_aon_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
 
-		const Asset &Asset_;
+		const Asset &asset_;
+		const Asset &baseAsset_;
 		Price price_{ 0 };  // Market Price
 
 		OrderTrackerMap Bids_;
@@ -87,6 +90,9 @@ namespace OMS {
 		
 		OrderTrackerMap StopBids_;
 		OrderTrackerMap StopAsks_;
+
+	private:
+		static std::mutex m;
 	};
 
 }

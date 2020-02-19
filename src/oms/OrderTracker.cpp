@@ -1,8 +1,8 @@
 #include "OrderTracker.h"
 
-OMS::OrderTracker::OrderTracker(const Order & order) :
+OMS::OrderTracker::OrderTracker(OrderPtr order) :
 		m_Order(order)
-	,	m_OpenQuantity(order.quantity())
+	,	m_OpenQuantity(order->quantity())
 	,	m_Reserved(0)
 {
 }
@@ -34,7 +34,7 @@ bool OMS::OrderTracker::is_filled() const
 
 OMS::Quantity OMS::OrderTracker::filled_quantity() const
 {
-	return m_Order.quantity() - m_OpenQuantity;
+	return m_Order->quantity() - m_OpenQuantity;
 }
 
 OMS::Quantity OMS::OrderTracker::open_quantity() const
@@ -48,7 +48,7 @@ OMS::Quantity OMS::OrderTracker::reserve(int32_t reserved)
 	return m_OpenQuantity - m_Reserved;
 }
 
-const OMS::Order& OMS::OrderTracker::order() const
+OMS::OrderPtr OMS::OrderTracker::order() const
 {
 	return m_Order;
 }

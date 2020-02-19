@@ -9,7 +9,7 @@ namespace OMS {
 	class OrderTracker
 	{
 	public:
-		OrderTracker(const Order &order);
+		OrderTracker(OrderPtr order);
 		virtual ~OrderTracker();
 
 		/// Modify an order quantity
@@ -30,14 +30,14 @@ namespace OMS {
 		Quantity reserve(int32_t reserved);
 
 		// Order accessors
-		const Order &order() const;
+		OrderPtr order() const;
 		//Order &order();
 
 
 		
 
 	protected:
-		const Order &m_Order;
+		OrderPtr m_Order;
 		Quantity m_OpenQuantity;
 		Quantity m_Reserved;
 	};

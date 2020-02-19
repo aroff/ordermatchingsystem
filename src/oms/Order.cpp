@@ -1,29 +1,15 @@
 #include "Order.h"
 
-OMS::Order::Order(Type type, Side side, Quantity quantity, Filling filling) :
-		type_(type)
-	,	side_(side)
+OMS::Order::Order(const Trader &trader, Side side, Quantity quantity, Filling filling) :
+		side_(side)
 	,	quantity_(quantity)
 	,	filling_(filling)
-{
-}
-
-OMS::Order::Order()
+	,	trader_(trader)
 {
 }
 
 OMS::Order::~Order()
 {
-}
-
-bool OMS::Order::is_limit() const
-{
-	return type_ == Type::Limit || type_ == Type::StopLimit;
-}
-
-OMS::Order::Type OMS::Order::type() const
-{
-	return type_;
 }
 
 OMS::Order::Side OMS::Order::side() const
@@ -77,6 +63,11 @@ OMS::Quantity OMS::Order::quantity() const
 	return quantity_;
 }
 
+OMS::Trader OMS::Order::trader() const
+{
+	return trader_;
+}
+
 OMS::Price OMS::LimitOrder::limit() const
 {
 	return limit_;
@@ -95,14 +86,13 @@ OMS::OrderError  OMS::LimitOrder::validate() const
 	return OrderError::Ok;
 }
 
-
-OMS::MarketOrder OMS::MarketOrder::Create(Side side, Quantity quantity, Filling filling)
+OMS::OrderPtr OMS::MarketOrder::Create(const Trader &trader, Side side, Quantity quantity, Filling filling)
 {
-	return MarketOrder(side, quantity, filling);
+	return std::make_shared<OMS::MarketOrder>(MarketOrder(trader, side, quantity, filling));
 }
 
-OMS::MarketOrder::MarketOrder(Side side, Quantity quantity, Filling filling) :
-	Order(Order::Type::Market, side, quantity, filling)
+OMS::MarketOrder::MarketOrder(const Trader &trader, Side side, Quantity quantity, Filling filling) :
+	Order(trader, side, quantity, filling)
 {
 }
 
@@ -111,39 +101,39 @@ OMS::OrderError OMS::MarketOrder::validate() const
 	return Order::validate();
 }
 
-OMS::LimitOrder OMS::LimitOrder::Create(Side side, Price limit, Quantity quantity, Filling filling)
+OMS::OrderPtr OMS::LimitOrder::Create(const Trader &trader, Side side, Price limit, Quantity quantity, Filling filling)
 {
-	return LimitOrder(side, quantity, limit, filling);
+	return std::move(std::make_shared<LimitOrder>(LimitOrder(trader, side, quantity, limit, filling)));
 }
 
-OMS::LimitOrder::LimitOrder(Side side, Quantity quantity, Price limit, Filling filling) :
-		Order(Order::Type::Limit, side, quantity, filling)
+OMS::LimitOrder::LimitOrder(const Trader &trader, Side side, Quantity quantity, Price limit, Filling filling) :
+		Order(trader, side, quantity, filling)
 	,	limit_(limit)
 {
 }
 
-OMS::StopLimitOrder OMS::StopLimitOrder::Create(Side side, Price limit, Price stop, Quantity quantity, Filling filling)
+OMS::OrderPtr OMS::StopLimitOrder::Create(const Trader &trader, Side side, Price limit, Price stop, Quantity quantity, Filling filling)
 {
-	return StopLimitOrder(side, quantity, stop, limit, filling);
+	return std::move(std::make_shared<StopLimitOrder>( StopLimitOrder(trader, side, quantity, stop, limit, filling)));
 }
 
-OMS::StopLimitOrder::StopLimitOrder(Side side, Quantity quantity, Price stop, Price limit, Filling filling) :
-		LimitOrder(side, quantity, limit, filling)
+OMS::StopLimitOrder::StopLimitOrder(const Trader &trader, Side side, Quantity quantity, Price stop, Price limit, Filling filling) :
+		LimitOrder(trader, side, quantity, limit, filling)
 	,	stop_(stop)
 
 {
 }
 
-OMS::OneCancelOtherOrder::OneCancelOtherOrder(Side side, Quantity quantity, Price limit, Price stop, Price stopLimit, Filling filling) :
-		StopLimitOrder(side, quantity, stop, limit, filling)
-	, stopLimit_(stopLimit)
+OMS::OneCancelOtherOrder::OneCancelOtherOrder(const Trader &trader, Side side, Quantity quantity, Price limit, Price stop, Price stopLimit, Filling filling) :
+		StopLimitOrder(trader, side, quantity, stop, limit, filling)
+	,	stopLimit_(stopLimit)
 {
 
 }
 
-OMS::OneCancelOtherOrder OMS::OneCancelOtherOrder::Create(Side side, Price limit, Price stop, Price stopLimit, Quantity quantity, Filling filling)
+OMS::OrderPtr OMS::OneCancelOtherOrder::Create(const Trader &trader, Side side, Price limit, Price stop, Price stopLimit, Quantity quantity, Filling filling)
 {
-	return OMS::OneCancelOtherOrder(side, quantity, limit, stop, stopLimit, filling);
+	return std::move(std::make_shared<OneCancelOtherOrder>(OMS::OneCancelOtherOrder(trader, side, quantity, limit, stop, stopLimit, filling)));
 }
 
 OMS::OrderError OMS::OneCancelOtherOrder::validate() const
