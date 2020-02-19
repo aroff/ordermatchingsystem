@@ -28,8 +28,6 @@ void OMS::OrderBook::add_limit_order(OrderPtr order) noexcept
 	OMS::OrderTracker tracker(order);
 
 	auto &queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
-	//ComparablePrice price(order.side(), order.limit());
-	//queue.insert({ price, tracker });
 	try_match_limit(tracker);
 }
 
@@ -45,8 +43,6 @@ void OMS::OrderBook::add_stoplimit_order(OrderPtr order) noexcept
 {
 	OMS::OrderTracker tracker(order);
 	auto queue = order->side() == OMS::Side::Buy ? StopBids_ : StopAsks_;
-	//ComparablePrice price(order.side(), order.limit());
-	//queue.insert({ price, tracker });
 	try_match_limit(tracker);
 }
 
@@ -102,7 +98,7 @@ void OMS::OrderBook::try_match_limit(OrderTracker &tracker) noexcept
 	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
 	{
 		ComparablePrice price(limitOrder->side(), limitOrder->limit());
-		bids.insert({ price, tracker });
+		bids.emplace( price, tracker );
 	}
 }
 
