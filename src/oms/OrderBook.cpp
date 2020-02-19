@@ -224,7 +224,7 @@ void printDepth(std::string name, const OMS::Asset &asset, const OMS::OrderTrack
 	auto maxPrice = (*orderTrackerMap.begin()).first.price();
 
 	std::cout << "****************** " << name << "****************** " << std::endl;
-	std::cout << "MinPrice: " << minPrice << ". MaxPrice: " << maxPrice << std::endl;
+	//std::cout << "MinPrice: " << minPrice << ". MaxPrice: " << maxPrice << std::endl;
 
 	/// count elements in price interval 
 	std::vector<OMS::Quantity> depth(10);
