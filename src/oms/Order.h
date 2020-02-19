@@ -38,9 +38,6 @@ namespace OMS {
 	{
 	public:
 
-		/// is this a limit order?
-		bool is_limit() const;
-
 		//virtual Type type() const;
 		virtual Side side() const;
 		virtual Filling filling() const;
@@ -69,7 +66,7 @@ namespace OMS {
 	class MarketOrder : public Order {
 	public:
 		MarketOrder(const Trader &trader, Side side, Quantity quantity, Filling filling);
-		virtual OrderError validate() const;
+		virtual OrderError validate() const override;
 
 		static OrderPtr Create(const Trader &trader, Side side, Quantity quantity, Filling filling = Filling::PartialFill);
 
@@ -95,7 +92,7 @@ namespace OMS {
 
 		/// Price of this order
 		virtual Price stop() const;
-		virtual OrderError validate() const;
+		virtual OrderError validate() const override;
 
 	protected:
 		Price stop_;
@@ -113,7 +110,7 @@ namespace OMS {
 		static OrderPtr Create(const Trader &trader, Side type, Price limit, Price stop, Price stopLimit, Quantity quantity, Filling filling = Filling::PartialFill);
 
 		/// Price of this order
-		virtual OrderError validate() const;
+		virtual OrderError validate() const override;
 
 	protected:
 
