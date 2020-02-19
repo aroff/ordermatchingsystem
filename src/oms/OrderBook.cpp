@@ -121,17 +121,16 @@ void OMS::OrderBook::replace(OrderPtr order, Quantity deltaQuantity, Price newPr
 
 void OMS::OrderBook::set_price(Price price)
 {
-	//TODO: handle concurrency
 	price_ = price;
 	
 	//TODO: implement checking of stop orders, given that we have a new price
+	//OnNewPrice
 
 	//print();
 }
 
 OMS::Price OMS::OrderBook::get_price() const
 {
-	//TODO: handle concurrency
 	return price_;
 }
 

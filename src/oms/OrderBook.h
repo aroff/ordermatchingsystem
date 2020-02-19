@@ -7,6 +7,7 @@
 #include <map>
 #include <list>
 #include <mutex>
+#include <atomic>
 
 namespace OMS {
 
@@ -83,7 +84,7 @@ namespace OMS {
 
 		const Asset &asset_;
 		const Asset &baseAsset_;
-		Price price_{ 0 };  // Market Price
+		std::atomic<Price> price_{ 0 };  // Market Price
 
 		OrderTrackerMap Bids_;
 		OrderTrackerMap Asks_;
