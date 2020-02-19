@@ -22,7 +22,8 @@ const OMS::Asset &OMS::OrderBook::asset() const
 	return asset_;
 }
 
-void OMS::OrderBook::add_limit_order(OrderPtr order) {
+void OMS::OrderBook::add_limit_order(OrderPtr order) noexcept 
+{
 
 	OMS::OrderTracker tracker(order);
 
@@ -32,7 +33,7 @@ void OMS::OrderBook::add_limit_order(OrderPtr order) {
 	try_match_limit(tracker);
 }
 
-void OMS::OrderBook::add_market_order(OrderPtr order)
+void OMS::OrderBook::add_market_order(OrderPtr order) noexcept 
 {
 	OMS::OrderTracker tracker(order);
 
@@ -40,7 +41,7 @@ void OMS::OrderBook::add_market_order(OrderPtr order)
 	try_match_market(tracker);
 }
 
-void OMS::OrderBook::add_stoplimit_order(OrderPtr order)
+void OMS::OrderBook::add_stoplimit_order(OrderPtr order) noexcept
 {
 	OMS::OrderTracker tracker(order);
 	auto queue = order->side() == OMS::Side::Buy ? StopBids_ : StopAsks_;
@@ -77,7 +78,8 @@ bool OMS::OrderBook::add(OrderPtr order)
 	return true;
 }
 
-void OMS::OrderBook::try_match_market(OrderTracker &tracker) {
+void OMS::OrderBook::try_match_market(OrderTracker &tracker) noexcept
+{
 
 	const LimitOrder &limitOrder = (const LimitOrder &)tracker.order();
 
@@ -88,12 +90,9 @@ void OMS::OrderBook::try_match_market(OrderTracker &tracker) {
 	bool matched = match_order(tracker, asks, deferred_aons);
 }
 
-void OMS::OrderBook::try_match_limit(OrderTracker &tracker) {
-
-	//auto a = (*tracker.order());;
+void OMS::OrderBook::try_match_limit(OrderTracker &tracker) noexcept  
+{
 	auto limitOrder = std::static_pointer_cast<LimitOrder>(tracker.order());
-
-	//auto limitOrder = (std::shared_ptr<LimitOrder> &)a;
 
 	auto &asks = limitOrder->side() == OMS::Side::Buy ? Asks_ : Bids_;
 	auto &bids = limitOrder->side() == OMS::Side::Buy ? Bids_ : Asks_;
@@ -105,12 +104,12 @@ void OMS::OrderBook::try_match_limit(OrderTracker &tracker) {
 		ComparablePrice price(limitOrder->side(), limitOrder->limit());
 		bids.insert({ price, tracker });
 	}
-
 }
 
 // Cancel an order
 bool OMS::OrderBook::cancel(OrderPtr order)
 {
+	// TODO
 	return false;
 }
 
@@ -122,6 +121,7 @@ void OMS::OrderBook::replace(OrderPtr order, Quantity deltaQuantity, Price newPr
 
 void OMS::OrderBook::set_price(Price price)
 {
+	//TODO: handle concurrency
 	price_ = price;
 	
 	//TODO: implement checking of stop orders, given that we have a new price
@@ -131,6 +131,7 @@ void OMS::OrderBook::set_price(Price price)
 
 OMS::Price OMS::OrderBook::get_price() const
 {
+	//TODO: handle concurrency
 	return price_;
 }
 
@@ -155,7 +156,7 @@ OMS::Quantity OMS::OrderBook::do_trade(OrderTracker & income, OrderTracker & ord
 	return fill_qty;
 }
 
-bool OMS::OrderBook::match_order(OMS::OrderTracker &tracker, OMS::OrderTrackerMap& current_orders, OMS::DeferredMatches & deferred_aons)
+bool OMS::OrderBook::match_order(OMS::OrderTracker &tracker, OMS::OrderTrackerMap& current_orders, OMS::DeferredMatches & deferred_aons) noexcept
 {
 	if (tracker.order()->filling() == OMS::Filling::AllOrNothing)
 		return match_aon_order(tracker, current_orders, deferred_aons); // all or nothing order
@@ -163,7 +164,7 @@ bool OMS::OrderBook::match_order(OMS::OrderTracker &tracker, OMS::OrderTrackerMa
 	return match_standard_order(tracker, current_orders, deferred_aons); // standard order
 }
 
-bool OMS::OrderBook::match_aon_order(OMS::OrderTracker &income, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons)
+bool OMS::OrderBook::match_aon_order(OMS::OrderTracker &income, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons) noexcept
 {
 // while incoming ! satisfied
 //   current is reg->trade
@@ -174,7 +175,7 @@ bool OMS::OrderBook::match_aon_order(OMS::OrderTracker &income, OrderTrackerMap&
 	return false;
 }
 
-bool OMS::OrderBook::match_standard_order(OMS::OrderTracker &income, OrderTrackerMap& orders, DeferredMatches & deferred_aons)
+bool OMS::OrderBook::match_standard_order(OMS::OrderTracker &income, OrderTrackerMap& orders, DeferredMatches & deferred_aons) noexcept
 {
 
 	bool matched = false;

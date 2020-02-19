@@ -60,26 +60,26 @@ namespace OMS {
 
 	protected:
 
-		void add_limit_order(OrderPtr order);
-		void add_market_order(OrderPtr order);
-		void add_stoplimit_order(OrderPtr order);
+		void add_limit_order(OrderPtr order) noexcept;
+		void add_market_order(OrderPtr order) noexcept;
+		void add_stoplimit_order(OrderPtr order) noexcept;
 
-		void try_match_market(OrderTracker &order);
-		void try_match_limit(OrderTracker &order);
-		void try_match_stoplimit(OrderTracker &order);
+		void try_match_market(OrderTracker &order) noexcept;
+		void try_match_limit(OrderTracker &order) noexcept;
+		void try_match_stoplimit(OrderTracker &order) noexcept;
 
 		// trade order1 against order2
 		Quantity do_trade(OrderTracker &income, OrderTracker &order, Quantity maxQuantity);
 
 		// Matching
-		virtual bool match_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		virtual bool match_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons) noexcept;
 
 		// matching of a regular order
-		bool match_standard_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_standard_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons) noexcept;
 
 
 		// matching of an all or nothing order
-		bool match_aon_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons);
+		bool match_aon_order(OrderTracker &incomeOrder, OrderTrackerMap& current_orders, DeferredMatches & deferred_aons) noexcept;
 
 		const Asset &asset_;
 		const Asset &baseAsset_;
