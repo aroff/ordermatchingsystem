@@ -78,3 +78,26 @@ bool OMS::OrderBook::add(OrderPtr order)
 	return true;
 }
 ```
+
+# Order Matching Order
+
+Orders are processed in the following order: Cancel orders are processed first, followed by market order, limit orders and stop order. 
+
+This section discusses the rules used by the order matching engine to execute order. 
+
+Orders may be partially filled or not filled at all (in the case of a limit order).
+
+After cancel orders, market orders are given the highest priority and will execute immediately when an opposite order exists in the market. Market orders may be partially filled, at different prices.
+
+An attempt is always made to match a buy order first, against existing sell orders.
+
+# How it works
+
+Limit orders are sorted:
+
+Buy orders are sorted in descending order by their bid price and ascending order by time stamp for orders that have the same price. Orders with the highest bid (buy) price are kept at the top of the queue and will be executed first. For equal priced bids, the order that arrives first is executed first.
+
+Sell orders are sorted in ascending order by their ask price, and like buy orders, by ascending order by time stamp for orders with the same price. Orders with the lowest sell (ask) prices will be sold first. For orders with the same ask price, the order that arrives first will be sold first.
+
+When an order completes, either because it is filled, canceled or expires, a status message is returned to the agent that submitted the order. Whenever there is a market transaction there is a risk that a counter party will default on the transaction. All transactions take place within the order matching engine.
+

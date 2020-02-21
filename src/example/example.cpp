@@ -63,7 +63,7 @@ int main()
 	OMS::Asset nrg("NRG", 5);	// Energi (NRG)
 	OMS::Asset btc("BTC", 5);	// Bitcoin (BTC)
 	OMS::Asset usdt("USDT", 5);	// USD Thether (USDT)
-	OMS::Option optionBTC("OPTBTC100000", btc, 10000, OMS::Date(2021, 01, 01, 0, 0, 0), OMS::Option::OptionType::Call); // Call option with strike at 10,000 USD
+	OMS::Option optionBTC("OPTBTC100000", btc, 10000, OMS::DateTime(2021, 01, 01, 0, 0, 0), OMS::Option::OptionType::Call); // Call option with strike at 10,000 USD
 
 	OMS::OrderBook orderBook(nrg, btc);	
 

@@ -51,8 +51,8 @@ namespace OMS {
 	
 	protected:
 		Order(const Trader &trader, Side side, Quantity quantity, Filling filling);
-		//Order();
 
+		const DateTime &creation_;
 		Side side_;
 		Quantity quantity_;
 		//Type type_;

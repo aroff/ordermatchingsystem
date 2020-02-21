@@ -5,6 +5,7 @@ OMS::Order::Order(const Trader &trader, Side side, Quantity quantity, Filling fi
 	,	quantity_(quantity)
 	,	filling_(filling)
 	,	trader_(trader)
+	,	creation_(DateTime::now())
 {
 }
 

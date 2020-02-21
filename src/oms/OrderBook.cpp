@@ -98,7 +98,7 @@ void OMS::OrderBook::try_match_limit(OrderTracker &tracker) noexcept
 	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
 	{
 		ComparablePrice price(limitOrder->side(), limitOrder->limit());
-		bids.emplace( price, tracker );
+		bids.insert({ price, tracker });
 	}
 }
 

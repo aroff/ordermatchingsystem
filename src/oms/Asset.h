@@ -18,12 +18,12 @@ namespace OMS {
 
 	class Future : Asset {
 	public:
-		Future(std::string ticker, const Asset &underlying, Date expirationDate);
+		Future(std::string ticker, const Asset &underlying, DateTime expirationDate);
 		const Asset &underlying() const { return underlying_; }
 
 	protected:
 		const Asset &underlying_;
-		Date expirationDate_;
+		DateTime expirationDate_;
 	};
 
 	class Option : Asset {
@@ -32,16 +32,16 @@ namespace OMS {
 			Call,
 			Put
 		};
-		Option(std::string ticker, const Asset &underlying, Price strike, Date expirationDate, OptionType type);
+		Option(std::string ticker, const Asset &underlying, Price strike, DateTime expirationDate, OptionType type);
 		const Asset &underlying() const { return underlying_; }
 		Price strike() const { return strike_; }
-		Date expiration() const { return expirationDate_; }
+		DateTime expiration() const { return expirationDate_; }
 		OptionType type() const { return type_; }
 
 	protected:
 		const Asset &underlying_;
 		Price strike_;
-		Date expirationDate_;
+		DateTime expirationDate_;
 		OptionType type_;
 	};
 }

@@ -31,10 +31,6 @@ namespace OMS {
 
 		// Order accessors
 		OrderPtr order() const;
-		//Order &order();
-
-
-		
 
 	protected:
 		OrderPtr m_Order;

@@ -18,12 +18,17 @@ namespace OMS {
 	typedef uint32_t Cost;
 	typedef int32_t DeltaQuantity;
 
-	class Date {
+	class DateTime {
 	public:
-		Date(unsigned int year, unsigned int mo, unsigned int day, unsigned int hour, unsigned int minutes, unsigned int seconds) {
+		
+		DateTime(unsigned int year, unsigned int mo, unsigned int day, unsigned int hour, unsigned int minutes, unsigned int seconds) {
 			_internalDate = 0; // compute date, assumine GMT and no holidays
 		}
-		
+
+
+		static DateTime now() {
+			return DateTime(2020, 2, 20, 0, 0, 0);//TODO MOCKUP
+		}		
 
 	protected:
 		double _internalDate;
