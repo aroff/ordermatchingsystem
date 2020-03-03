@@ -1,5 +1,8 @@
 # An Order Matching System in C++
 
+=======
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75db636aa855419b8075d9e9d7c26551)](https://app.codacy.com/manual/aroff/ordermatchingsystem?utm_source=github.com&utm_medium=referral&utm_content=aroff/ordermatchingsystem&utm_campaign=Badge_Grade_Dashboard)
+
 
 ## Main components
 
