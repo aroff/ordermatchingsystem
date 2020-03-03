@@ -27,7 +27,7 @@ void OMS::OrderBook::add_limit_order(OrderPtr order) noexcept
 
 	OMS::OrderTracker tracker(order);
 
-	auto &queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
+	//auto &queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
 	try_match_limit(tracker);
 }
 
@@ -35,14 +35,14 @@ void OMS::OrderBook::add_market_order(OrderPtr order) noexcept
 {
 	OMS::OrderTracker tracker(order);
 
-	auto queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
+	//auto queue = order->side() == OMS::Side::Buy ? Bids_ : Asks_;
 	try_match_market(tracker);
 }
 
 void OMS::OrderBook::add_stoplimit_order(OrderPtr order) noexcept
 {
 	OMS::OrderTracker tracker(order);
-	auto queue = order->side() == OMS::Side::Buy ? StopBids_ : StopAsks_;
+	//auto queue = order->side() == OMS::Side::Buy ? StopBids_ : StopAsks_;
 	try_match_limit(tracker);
 }
 
@@ -77,13 +77,21 @@ bool OMS::OrderBook::add(OrderPtr order)
 void OMS::OrderBook::try_match_market(OrderTracker &tracker) noexcept
 {
 
-	const LimitOrder &limitOrder = (const LimitOrder &)tracker.order();
+	auto limitOrder = std::static_pointer_cast<LimitOrder>(tracker.order());
 
-	auto &asks = limitOrder.side() == Side::Buy ? Asks_ : Bids_;
-	auto &bids = limitOrder.side() == Side::Buy ? Bids_ : Asks_;
+	auto &asks = limitOrder->side() == Side::Buy ? Asks_ : Bids_;
+	auto &bids = limitOrder->side() == Side::Buy ? Bids_ : Asks_;
 
 	DeferredMatches deferred_aons;
 	bool matched = match_order(tracker, asks, deferred_aons);
+
+	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
+	{
+		ComparablePrice price(limitOrder->side(), limitOrder->limit());
+		auto &bids = limitOrder->side() == OMS::Side::Buy ? Bids_ : Asks_;
+		bids.insert({ price, tracker });
+	}
+
 }
 
 void OMS::OrderBook::try_match_limit(OrderTracker &tracker) noexcept  
@@ -91,13 +99,13 @@ void OMS::OrderBook::try_match_limit(OrderTracker &tracker) noexcept
 	auto limitOrder = std::static_pointer_cast<LimitOrder>(tracker.order());
 
 	auto &asks = limitOrder->side() == OMS::Side::Buy ? Asks_ : Bids_;
-	auto &bids = limitOrder->side() == OMS::Side::Buy ? Bids_ : Asks_;
 
 	DeferredMatches deferred_aons;
 	bool matched = match_order(tracker, asks, deferred_aons);
 	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
 	{
 		ComparablePrice price(limitOrder->side(), limitOrder->limit());
+		auto &bids = limitOrder->side() == OMS::Side::Buy ? Bids_ : Asks_;
 		bids.insert({ price, tracker });
 	}
 }
@@ -228,7 +236,7 @@ void printDepth(std::string name, const OMS::Asset &asset, const OMS::OrderTrack
 	OMS::Price binStep = (maxPrice - minPrice) / 10;
 	if (binStep == 0)
 		binStep = 1;
-	OMS::Price startPrice = minPrice, endPrice = maxPrice;
+	OMS::Price startPrice = minPrice;// , endPrice = maxPrice;
 	OMS::Quantity totalQuantity(1);
 	for (OMS::Price binPrice = startPrice; i < 10; binPrice += binStep) {
 		int cnt = std::accumulate(orderTrackerMap.begin(), orderTrackerMap.end(), 0, [binPrice](int v, const OMS::OrderTrackerMap::value_type& p) {

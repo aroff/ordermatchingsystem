@@ -1,17 +1,16 @@
 # An Order Matching System in C++
 
-This is a playground project for helping me understanding the workings of a real-time order book. 
 
-# Main components
+## Main components
 
-- Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
-- Asset / Future / Option, represents the asset being traded
-- Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
-- OrderTracker, tracks execution (filling) of each order.
-- OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
-- Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
+  - Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
+  - Asset / Future / Option, represents the asset being traded
+  - Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
+  - OrderTracker, tracks execution (filling) of each order.
+  - OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
+  - Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
 
-# Simple example
+## Simple example
 
 ```cpp
 OMS::Trader trader1(1);
@@ -32,20 +31,20 @@ orderBook.print();
 
 ```
 
-# Asset Types
+## Asset Types
 
-- Simple assets, like stocks
-- Futures
-- Plain vanilla options, (european/american)
+  - Simple assets, like stocks
+  - Futures
+  - Plain vanilla options, (european/american)
 
-# Order types
+## Order types
 
-- Market Order
-- Limit order
-- Stop Limit order (not implemented yet)
-- One Cancel Other order (not implemented yet)
+  - Market Order
+  - Limit order
+  - Stop Limit order (not implemented yet)
+  - One Cancel Other order (not implemented yet)
 
-# Adding orders to the Order book
+## Adding orders to the Order book
 
 To prevent 
 ```cpp
@@ -79,7 +78,7 @@ bool OMS::OrderBook::add(OrderPtr order)
 }
 ```
 
-# Order Matching Order
+## Order Matching Order
 
 Orders are processed in the following order: Cancel orders are processed first, followed by market order, limit orders and stop order. 
 
@@ -91,7 +90,7 @@ After cancel orders, market orders are given the highest priority and will execu
 
 An attempt is always made to match a buy order first, against existing sell orders.
 
-# How it works
+## How it works
 
 Limit orders are sorted:
 
@@ -100,4 +99,3 @@ Buy orders are sorted in descending order by their bid price and ascending order
 Sell orders are sorted in ascending order by their ask price, and like buy orders, by ascending order by time stamp for orders with the same price. Orders with the lowest sell (ask) prices will be sold first. For orders with the same ask price, the order that arrives first will be sold first.
 
 When an order completes, either because it is filled, canceled or expires, a status message is returned to the agent that submitted the order. Whenever there is a market transaction there is a risk that a counter party will default on the transaction. All transactions take place within the order matching engine.
-

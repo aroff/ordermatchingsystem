@@ -53,7 +53,7 @@ OMS::OrderError OMS::StopLimitOrder::validate() const
 		}
 	}
 
-	if (stop_ <= 0)
+	if (stop_ == 0)
 		return OrderError::InvalidStop;
 
 	return OrderError::Ok;
@@ -80,7 +80,7 @@ OMS::OrderError  OMS::LimitOrder::validate() const
 	if (err != OrderError::Ok)
 		return err;
 
-	if (limit_ <= 0) {
+	if (limit_ == 0) {
 		return OrderError::InvalidLimitPrice;
 	}
 
