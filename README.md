@@ -4,12 +4,12 @@
 
 ## Main components
 
-- Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
-- Asset / Future / Option, represents the asset being traded
-- Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
-- OrderTracker, tracks execution (filling) of each order.
-- OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
-- Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
+-  Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
+-  Asset / Future / Option, represents the asset being traded
+-  Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
+-  OrderTracker, tracks execution (filling) of each order.
+-  OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
+-  Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
 
 ## Simple example
 
@@ -34,16 +34,16 @@ orderBook.print();
 
 ## Asset Types
 
-- Simple assets, like stocks
-- Futures
-- Plain vanilla options, (european/american)
+-  Simple assets, like stocks
+-  Futures
+-  Plain vanilla options, (european/american)
 
 ## Order types
 
-- Market Order
-- Limit order
-- Stop Limit order (not implemented yet)
-- One Cancel Other order (not implemented yet)
+-  Market Order
+-  Limit order
+-  Stop Limit order (not implemented yet)
+-  One Cancel Other order (not implemented yet)
 
 ## Adding orders to the Order book
 
