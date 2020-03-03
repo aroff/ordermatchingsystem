@@ -221,7 +221,7 @@ bool OMS::OrderBook::match_standard_order(OMS::OrderTracker &income, OrderTracke
 	return matched;
 }
 
-void printDepth(std::string name, const OMS::Asset &asset, const OMS::OrderTrackerMap &orderTrackerMap) {
+void printDepth(const std::string &name, const OMS::Asset &asset, const OMS::OrderTrackerMap &orderTrackerMap) {
 
 	if (orderTrackerMap.empty())
 		return;
