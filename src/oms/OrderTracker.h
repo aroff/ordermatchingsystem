@@ -26,6 +26,9 @@ namespace OMS {
 
 		/// open quantity
 		Quantity open_quantity() const;
+		void set_open_quantity(Quantity qtty) {
+			openQuantity_ = qtty;
+		};
 
 		Quantity reserve(int32_t reserved);
 
@@ -34,7 +37,7 @@ namespace OMS {
 
 	protected:
 		OrderPtr m_Order;
-		Quantity m_OpenQuantity;
+		Quantity openQuantity_;
 		Quantity m_Reserved;
 	};
 }

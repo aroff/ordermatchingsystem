@@ -1,6 +1,6 @@
 #include "Asset.h"
 
-OMS::Asset::Asset(std::string ticker, unsigned int decimalPlaces) :
+OMS::Asset::Asset(const std::string &ticker, unsigned int decimalPlaces) :
 		ticker_(ticker)
 	, decimalPlaces_(decimalPlaces)
 {
@@ -11,7 +11,7 @@ OMS::Asset::~Asset()
 {
 }
 
-OMS::Option::Option(std::string ticker, const Asset &underlying, Price strike, DateTime expirationDate, OptionType type) :
+OMS::Option::Option(const std::string &ticker, const Asset &underlying, Price strike, DateTime expirationDate, OptionType type) :
 		OMS::Asset(ticker)
 	,	underlying_(underlying)
 	,	strike_(strike)
@@ -21,7 +21,7 @@ OMS::Option::Option(std::string ticker, const Asset &underlying, Price strike, D
 
 }
 
-OMS::Future::Future(std::string ticker, const Asset & underlying, DateTime expirationDate) :
+OMS::Future::Future(const std::string &ticker, const Asset & underlying, DateTime expirationDate) :
 		Asset(ticker)
 	,	underlying_(underlying)
 	,	expirationDate_(expirationDate)

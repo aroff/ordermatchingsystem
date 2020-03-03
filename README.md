@@ -1,17 +1,15 @@
 # An Order Matching System in C++
 
-=======
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/75db636aa855419b8075d9e9d7c26551)](https://app.codacy.com/manual/aroff/ordermatchingsystem?utm_source=github.com&utm_medium=referral&utm_content=aroff/ordermatchingsystem&utm_campaign=Badge_Grade_Dashboard)
-
 
 ## Main components
 
-  - Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
-  - Asset / Future / Option, represents the asset being traded
-  - Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
-  - OrderTracker, tracks execution (filling) of each order.
-  - OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
-  - Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
+- Trader, represents the owner of the trading order. Each trader has an array with the balance in each currency (required for checking if it has funds for buying assets or using as margin)
+- Asset / Future / Option, represents the asset being traded
+- Order / LimitOrder / StopLimitOrder / OneCancelOtherOrder, represents a trading order
+- OrderTracker, tracks execution (filling) of each order.
+- OrderBook, maintains the entire order books with bids, asks, stop bids, stop asks, calls the matching algorithm and dispatch order related events and latest market price
+- Depth, a real-time aggregator that consolidates the order book data and dispatch real-time events (usually consumed by client apps)
 
 ## Simple example
 
@@ -36,16 +34,16 @@ orderBook.print();
 
 ## Asset Types
 
-  - Simple assets, like stocks
-  - Futures
-  - Plain vanilla options, (european/american)
+- Simple assets, like stocks
+- Futures
+- Plain vanilla options, (european/american)
 
 ## Order types
 
-  - Market Order
-  - Limit order
-  - Stop Limit order (not implemented yet)
-  - One Cancel Other order (not implemented yet)
+- Market Order
+- Limit order
+- Stop Limit order (not implemented yet)
+- One Cancel Other order (not implemented yet)
 
 ## Adding orders to the Order book
 

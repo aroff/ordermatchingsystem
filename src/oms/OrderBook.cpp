@@ -83,7 +83,7 @@ void OMS::OrderBook::try_match_market(OrderTracker &tracker) noexcept
 	auto &bids = limitOrder->side() == Side::Buy ? Bids_ : Asks_;
 
 	DeferredMatches deferred_aons;
-	bool matched = match_order(tracker, asks, deferred_aons);
+	/*bool matched = */match_order(tracker, asks, deferred_aons);
 
 	if (!tracker.is_filled() && !(limitOrder->filling() == OMS::Filling::ImmediateOrCancel)) // if we couldn't fill entire order immediately, add it to order queue. IOC orders are not added to order queue
 	{
@@ -215,6 +215,8 @@ bool OMS::OrderBook::match_standard_order(OMS::OrderTracker &income, OrderTracke
 		else
 			break;
 	}
+
+	income.set_open_quantity(income_quantity);
 
 	return matched;
 }
