@@ -100,3 +100,18 @@ Buy orders are sorted in descending order by their bid price and ascending order
 Sell orders are sorted in ascending order by their ask price, and like buy orders, by ascending order by time stamp for orders with the same price. Orders with the lowest sell (ask) prices will be sold first. For orders with the same ask price, the order that arrives first will be sold first.
 
 When an order completes, either because it is filled, canceled or expires, a status message is returned to the agent that submitted the order. Whenever there is a market transaction there is a risk that a counter party will default on the transaction. All transactions take place within the order matching engine.
+
+
+## References
+
+# Trading System in C++
+
+## Data feeder Module
+
+## Strategy Module
+
+## References
+
+https://github.com/binance-exchange/binacpp
+https://medium.com/@ariel.silahian/how-do-i-design-high-frequency-trading-systems-and-its-architecture-part-ii-81e67cc7a8f5
+https://blog.quantinsti.com/automated-trading-system/
