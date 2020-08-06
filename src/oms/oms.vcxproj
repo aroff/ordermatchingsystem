@@ -23,7 +23,7 @@
     <ProjectGuid>{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}</ProjectGuid>
     <RootNamespace>oms</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
-    <ProjectName>OMS</ProjectName>
+    <ProjectName>OrderMatching</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

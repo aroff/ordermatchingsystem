@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example", "src\example\example.vcxproj", "{EC8DF456-20F1-4DA2-9F34-6757347719A1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OMS", "src\oms\oms.vcxproj", "{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrderMatching", "src\oms\oms.vcxproj", "{E7204CA8-680E-4C6F-8EB6-A5B9247DEC94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58D3FCEB-0952-4C38-8E08-D8A214FCF0BD}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OMS.Test", "tests\oms.test\oms.test.vcxproj", "{56175764-99E4-4543-87FC-F5DB40560D26}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OrderMatching.Test", "tests\oms.test\oms.test.vcxproj", "{56175764-99E4-4543-87FC-F5DB40560D26}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataFeeder", "datafeeder\datafeeder.vcxproj", "{0F79DCB6-99CE-415C-8647-9B67200B810F}"
 EndProject
